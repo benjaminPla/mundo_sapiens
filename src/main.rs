@@ -7,7 +7,7 @@ fn main() -> eframe::Result<()> {
         "Mundo Sapiens",
         eframe::NativeOptions::default(),
         Box::new(move |cc| {
-            presentation::theme::apply(&cc.egui_ctx);
+            presentation::tokens::apply(&cc.egui_ctx);
             Ok(Box::new(presentation::MundoSapiensApp::new()))
         }),
     )

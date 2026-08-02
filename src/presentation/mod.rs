@@ -1,12 +1,13 @@
-pub mod menu;
-pub mod theme;
-pub mod views;
+pub mod components;
+pub mod tokens;
+pub mod screens;
 
 use crate::infrastructure::app_bootstrap::AppBootstrap;
-use views::View;
+use screens::{Screen, Screens};
 
 pub struct MundoSapiensApp {
-    active_view: views::View,
+    active_screen: Screen,
+    screens:       Screens,
 }
 
 impl MundoSapiensApp {
@@ -14,32 +15,22 @@ impl MundoSapiensApp {
         match AppBootstrap::execute() {
             Ok(_)      => {},
             Err(_error) => {
-                eprintln!("Failed during bootstrap"); // actuall handle the error from infrastructure
+                eprintln!("Failed during bootstrap"); // TODO: handle errors
                 std::process::exit(1);
             }
 
         }
-        Self { active_view: View::Dashboard }
+        Self { active_screen: Screen::Dashboard, screens: Screens::new() }
     }
 }
 
 impl eframe::App for MundoSapiensApp {
     fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
-        // ── Menu ─────────────────────────────────────────────────────────────────
-        ui.horizontal(|ui| {
-            for menu_option in menu::Menu::ALL {
-                let view = View::from(&menu_option);
-                if ui.selectable_label(self.active_view == view, menu_option.title()).clicked() {
-                    self.active_view = view;
-                }
-            }
-        });
-
-        ui.separator();
-
-        // ── Main ─────────────────────────────────────────────────────────────────
         egui::CentralPanel::default()
-            .frame(egui::Frame::NONE.fill(theme::CYAN))
-            .show(ui, |ui| { View::show(ui, &self.active_view) });
+            .frame(egui::Frame::NONE.fill(tokens::CYAN).inner_margin(tokens::SPACING_MEDIUM))
+            .show(ui, |ui| {
+                if let Some(screen) = components::navbar(ui) { self.active_screen = screen };
+                self.screens.show(ui, self.active_screen);
+            });
     }
 }
