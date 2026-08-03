@@ -7,10 +7,9 @@ CREATE TABLE sellers (
 );
 
 CREATE TABLE designs (
-    id         BIGSERIAL PRIMARY KEY,
-    name       TEXT   NOT NULL,
-    seller_id  BIGINT NOT NULL REFERENCES sellers(id),
-    image_path TEXT
+    id        BIGSERIAL PRIMARY KEY,
+    name      TEXT   NOT NULL,
+    seller_id BIGINT NOT NULL REFERENCES sellers(id)
 );
 
 CREATE TABLE purchases (
