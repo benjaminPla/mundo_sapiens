@@ -26,7 +26,7 @@ impl ScreenPurchase {
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
         components::depth_panel(ui, |ui| {
-            ui.heading("Registrar Compra");
+            components::header(ui, "Registrar Compra", None);
             ui.label("Registre a compra de um design a um fornecedor.");
             ui.add_space(tokens::SPACING_SMALL);
             egui::Grid::new("purchase_form")

@@ -26,7 +26,7 @@ impl ScreenProduction {
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
         components::depth_panel(ui, |ui| {
-            ui.heading("Avançar Produção");
+            components::header(ui, "Avançar Produção", None);
             ui.label("Avance as etapas de produção de um design.");
             ui.add_space(tokens::SPACING_SMALL);
             for row in PRODUCTION_ROWS {
