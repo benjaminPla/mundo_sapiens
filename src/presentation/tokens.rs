@@ -55,10 +55,10 @@ pub fn apply(ctx: &Context) {
     visuals.widgets.active.bg_fill           = PURPLE;
     visuals.widgets.active.corner_radius     = corner_radius;
     visuals.widgets.active.fg_stroke         = Stroke::new(STROKE_MEDIUM, WHITE);
-    visuals.widgets.hovered.bg_stroke        = Stroke::new(STROKE_LARGE, PURPLE);
+    visuals.widgets.hovered.bg_stroke        = Stroke::new(STROKE_MEDIUM, PURPLE);
     visuals.widgets.hovered.corner_radius    = corner_radius;
     visuals.widgets.inactive.bg_fill         = WHITE;
-    visuals.widgets.inactive.bg_stroke       = Stroke::new(STROKE_LARGE, BLACK);
+    visuals.widgets.inactive.bg_stroke       = Stroke::new(STROKE_MEDIUM, BLACK);
     visuals.widgets.inactive.corner_radius   = corner_radius;
     visuals.widgets.inactive.weak_bg_fill    = WHITE;
     // ── Windows ──────────────────────────────────────────────────────────────
