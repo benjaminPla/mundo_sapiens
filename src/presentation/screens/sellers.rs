@@ -78,6 +78,7 @@ impl ScreenSellers {
                                 r.col(|ui| {
                                     components::table_row(ui, i, |ui| {
                                         ui.horizontal(|ui| {
+                                            ui.spacing_mut().item_spacing.x = tokens::SPACING_SMALL;
                                             components::button(ui, "Editar", tokens::BTN_DEFAULT_SIZE);
                                             components::button(ui, "Excluir", tokens::BTN_DEFAULT_SIZE);
                                         });
