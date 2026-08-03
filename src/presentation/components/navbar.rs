@@ -19,10 +19,10 @@ pub fn navbar(ui: &mut egui::Ui) -> Option<Screen> {
 
     ui.horizontal(|ui| {
         if nav_link(ui, "Dashboard").clicked() { clicked = Some(Screen::Dashboard) }
-        if nav_link(ui, "Designs").clicked() { clicked = Some(Screen::Designs) }
-        if nav_link(ui, "Avançar Produção").clicked() { clicked = Some(Screen::Production) }
-        if nav_link(ui, "Registrar Compra").clicked() { clicked = Some(Screen::Purchase) }
         if nav_link(ui, "Registrar Venda").clicked() { clicked = Some(Screen::Sale) }
+        if nav_link(ui, "Registrar Compra").clicked() { clicked = Some(Screen::Purchase) }
+        if nav_link(ui, "Avançar Produção").clicked() { clicked = Some(Screen::Production) }
+        if nav_link(ui, "Designs").clicked() { clicked = Some(Screen::Designs) }
         if nav_link(ui, "Fornecedores").clicked() { clicked = Some(Screen::Sellers) }
     });
 
