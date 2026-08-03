@@ -18,7 +18,7 @@ impl ScreenSale {
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
-        components::panel(ui, |ui| {
+        components::depth_panel(ui, |ui| {
             ui.heading("Registrar Venda");
             ui.label("As unidades saem dos lotes mais antigos em estado Pronto (FIFO).");
             ui.add_space(tokens::SPACING_SMALL);

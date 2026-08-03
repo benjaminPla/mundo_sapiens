@@ -18,7 +18,7 @@ impl ScreenDesigns {
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
-        components::panel(ui, |ui| {
+        components::depth_panel(ui, |ui| {
             ui.heading("Designs");
             ui.add_space(tokens::SPACING_SMALL);
             for d in DESIGN_ROWS { ui.label(d.name); }

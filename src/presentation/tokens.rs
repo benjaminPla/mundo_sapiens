@@ -1,6 +1,8 @@
-use egui::{Color32, Context, CornerRadius, Stroke};
+use egui::{Color32, Context, CornerRadius, Stroke, Vec2};
 use std::sync::Arc;
 
+// ── Buttons ──────────────────────────────────────────────────────────────
+pub const BTN_DEFAULT_SIZE: Vec2 = Vec2::new(40.0, 20.0);
 // ── Colors ───────────────────────────────────────────────────────────────
 pub const BLACK:            Color32 = Color32::from_rgb(0,   0,   0);
 pub const CYAN:             Color32 = Color32::from_rgb(63,  198, 217);
@@ -26,6 +28,8 @@ pub const SPACING_SMALL:    f32     = 2.0;
 // ── Stokes ───────────────────────────────────────────────────────────────
 pub const STROKE_MEDIUM:    f32     = 1.0;
 pub const STROKE_LARGE:     f32     = 1.5;
+// ── Tables ───────────────────────────────────────────────────────────────
+pub const TABLE_HEIGHT:     f32     = 24.0;
 
 
 pub fn apply(ctx: &Context) {

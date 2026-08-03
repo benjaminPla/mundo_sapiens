@@ -33,7 +33,7 @@ impl ScreenDashboard {
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
 
-        components::panel(ui, |ui| {
+        components::depth_panel(ui, |ui| {
             ui.heading("Dashboard");
             ui.label("Situação do estoque por design");
             ui.add_space(tokens::SPACING_SMALL);

@@ -46,51 +46,47 @@ impl ScreenSellers {
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) {
-        components::panel(ui, |ui| {
-            ui.horizontal(|ui| {
-                ui.heading("Fornecedor");
-                ui.with_layout(
-                    egui::Layout::right_to_left(egui::Align::Center),
-                    |ui| {
-                        if components::button(ui, "Criar", egui::vec2(40.0, 20.0)).clicked() {
-                            self.window_create = true;
-                        }
-                    },
-                );
-            });
+        components::depth_panel(ui, |ui| {
+            components::header(ui, "Fornecedor", Some(Box::new(|ui: &mut egui::Ui| {
+                if components::button(ui, "Criar", tokens::BTN_DEFAULT_SIZE).clicked() {
+                    self.window_create = true;
+                }
+            })));
 
-            ui.separator();
-
-            TableBuilder::new(ui)
-                .striped(true)
-                .column(Column::remainder())
-                .column(Column::remainder())
-                .column(Column::remainder())
-                .column(Column::remainder())
-                .column(Column::auto())
-                .header(tokens::SPACING_SMALL, |mut header| {
-                    header.col(|ui| { components::table_header(ui, "Nome"); });
-                    header.col(|ui| { components::table_header(ui, "Contato"); });
-                    header.col(|ui| { components::table_header(ui, "Email"); });
-                    header.col(|ui| { components::table_header(ui, "Telefone"); });
-                    header.col(|ui| { components::table_header(ui, "Ações"); });
-                })
-                .body(|mut body| {
-                    for row in SELLERTS_ROWS {
-                        body.row(tokens::SPACING_SMALL, |mut r| {
-                            r.col(|ui| { ui.label(row.company_name); });
-                            r.col(|ui| { ui.label(row.contact_name); });
-                            r.col(|ui| { ui.label(row.email); });
-                            r.col(|ui| { ui.label(row.phone); });
-                            r.col(|ui| { 
-                                ui.horizontal(|ui| {
-                                    components::button(ui, "Editar", egui::vec2(40.0, 20.0));
-                                    components::button(ui, "Excluir", egui::vec2(40.0, 20.0));
+            components::table(ui, |ui| {
+                TableBuilder::new(ui)
+                    .striped(false)
+                    .column(Column::remainder())
+                    .column(Column::remainder())
+                    .column(Column::remainder())
+                    .column(Column::remainder())
+                    .column(Column::auto())
+                    .header(tokens::TABLE_HEIGHT, |mut header| {
+                        header.col(|ui| { components::table_header(ui, "Nome"); });
+                        header.col(|ui| { components::table_header(ui, "Contato"); });
+                        header.col(|ui| { components::table_header(ui, "Email"); });
+                        header.col(|ui| { components::table_header(ui, "Telefone"); });
+                        header.col(|ui| { components::table_header(ui, "Ações"); });
+                    })
+                    .body(|mut body| {
+                        for (i, row) in SELLERTS_ROWS.iter().enumerate() {
+                            body.row(tokens::TABLE_HEIGHT, |mut r| {
+                                r.col(|ui| { components::table_row(ui, i, |ui| { ui.label(row.company_name); }); });
+                                r.col(|ui| { components::table_row(ui, i, |ui| { ui.label(row.contact_name); }); });
+                                r.col(|ui| { components::table_row(ui, i, |ui| { ui.label(row.email); }); });
+                                r.col(|ui| { components::table_row(ui, i, |ui| { ui.label(row.phone); }); });
+                                r.col(|ui| {
+                                    components::table_row(ui, i, |ui| {
+                                        ui.horizontal(|ui| {
+                                            components::button(ui, "Editar", tokens::BTN_DEFAULT_SIZE);
+                                            components::button(ui, "Excluir", tokens::BTN_DEFAULT_SIZE);
+                                        });
+                                    });
                                 });
                             });
-                        });
-                    }
-                });
+                        }
+                    });
+            });
         });
 
         let action = components::window(ui.ctx(), "Criar", &mut self.window_create, |ui| {
