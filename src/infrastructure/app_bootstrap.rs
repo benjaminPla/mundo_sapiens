@@ -10,13 +10,13 @@ impl AppBootstrap {
     const DB_NAME:     &'static str = "mundo_sapiens";
     const DB_PASSWORD: &'static str = "mundo_sapiens";
 
-    pub fn execute() -> Result<(), InfraError> {
+    pub fn execute() -> Result<(PgPool, tokio::runtime::Runtime), InfraError> {
         let runtime = tokio::runtime::Runtime::new().map_err(|err| InfraError::Database(format!("failed to start async runtime: {err}")))?;
-        let (postgresql, pool) = runtime.block_on(Self::setup())?;
-        Ok(())
+        let pool    = runtime.block_on(Self::db_setup())?;
+        Ok((pool, runtime))
     }
 
-    async fn setup() -> Result<(PostgreSQL, PgPool), InfraError> {
+    async fn db_setup() -> Result<PgPool, InfraError> {
         let data_dir = dirs::data_dir().unwrap_or_else(|| PathBuf::from(".")).join("mundo_sapiens").join("pgdata");
         let settings = Settings {
             data_dir,
@@ -43,6 +43,6 @@ impl AppBootstrap {
 
         sqlx::migrate!("./migrations").run(&pool).await.map_err(|err| InfraError::Database(format!("migration failed: {err}")))?;
 
-        Ok((postgresql, pool))
+        Ok(pool)
     }
 }
