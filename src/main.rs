@@ -9,10 +9,12 @@ use crate::presentation::app_data::AppData;
 use crate::presentation::components;
 use crate::presentation::screens::{Screen, Screens};
 use crate::presentation::tokens;
+use postgresql_embedded::PostgreSQL;
 
 pub struct AppState {
     active_screen: Screen,
     app_data:      AppData,
+    _postgresql:   PostgreSQL,
     runtime:       tokio::runtime::Runtime,
     screens:       Screens,
     sellers_repo:  PgSellersRepository,
@@ -20,7 +22,7 @@ pub struct AppState {
 
 impl AppState {
     pub fn new() -> Self {
-        let (pool, runtime) = match AppBootstrap::execute() {
+        let (pool, runtime, postgresql) = match AppBootstrap::execute() {
             Ok(bootstrap) => bootstrap,
             Err(_error) => {
                 eprintln!("Failed during bootstrap: {_error}");
@@ -31,6 +33,7 @@ impl AppState {
         Self {
             active_screen: Screen::Dashboard,
             app_data: AppData::default(),
+            _postgresql: postgresql,
             runtime,
             screens: Screens::new(),
             sellers_repo,
