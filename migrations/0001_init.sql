@@ -1,9 +1,9 @@
 CREATE TABLE sellers (
-    id            BIGSERIAL PRIMARY KEY,
-    name          VARCHAR(50) NOT NULL,
-    contact_name  VARCHAR(50),
-    email         VARCHAR(254),
-    phone         VARCHAR(20)
+    company_name VARCHAR(50) NOT NULL,
+    contact_name VARCHAR(50),
+    email        VARCHAR(254),
+    id           BIGSERIAL PRIMARY KEY,
+    phone        VARCHAR(20)
 );
 
 CREATE TABLE designs (
@@ -13,44 +13,44 @@ CREATE TABLE designs (
 );
 
 CREATE TABLE purchases (
-    id        BIGSERIAL PRIMARY KEY,
-    design_id BIGINT NOT NULL REFERENCES designs(id),
-    seller_id BIGINT NOT NULL REFERENCES sellers(id),
     cost      DOUBLE PRECISION NOT NULL,
-    date      DATE   NOT NULL
+    date      DATE   NOT NULL,
+    design_id BIGINT NOT NULL REFERENCES designs(id),
+    id        BIGSERIAL PRIMARY KEY,
+    seller_id BIGINT NOT NULL REFERENCES sellers(id)
 );
 
 CREATE TABLE batches (
-    id           BIGSERIAL PRIMARY KEY,
+    date         DATE   NOT NULL,
     design_id    BIGINT NOT NULL REFERENCES designs(id),
+    id           BIGSERIAL PRIMARY KEY,
     purchase_id  BIGINT NOT NULL REFERENCES purchases(id),
-    qty_produced BIGINT NOT NULL,
-    date         DATE   NOT NULL
+    qty_produced BIGINT NOT NULL
 );
 
 CREATE TABLE stock_movements (
-    id         BIGSERIAL PRIMARY KEY,
     batch_id   BIGINT NOT NULL REFERENCES batches(id),
-    from_state TEXT,
-    to_state   TEXT   NOT NULL,
-    qty        BIGINT NOT NULL CHECK (qty > 0),
     date       DATE   NOT NULL,
+    from_state TEXT,
+    id         BIGSERIAL PRIMARY KEY,
     note       TEXT,
+    qty        BIGINT NOT NULL CHECK (qty > 0),
+    to_state   TEXT   NOT NULL,
     CHECK (from_state IS NULL OR from_state IN ('Purchased', 'Magnetized', 'Cut', 'Ready', 'Sold')),
     CHECK (to_state IN ('Purchased', 'Magnetized', 'Cut', 'Ready', 'Sold'))
 );
 
 CREATE TABLE sales (
-    id   BIGSERIAL PRIMARY KEY,
     date DATE NOT NULL,
+    id   BIGSERIAL PRIMARY KEY,
     note TEXT
 );
 
 CREATE TABLE sale_lines (
-    id       BIGSERIAL PRIMARY KEY,
-    sale_id  BIGINT NOT NULL REFERENCES sales(id),
     batch_id BIGINT NOT NULL REFERENCES batches(id),
-    qty      BIGINT NOT NULL CHECK (qty > 0)
+    id       BIGSERIAL PRIMARY KEY,
+    qty      BIGINT NOT NULL CHECK (qty > 0),
+    sale_id  BIGINT NOT NULL REFERENCES sales(id)
 );
 
 CREATE INDEX stock_movements_batch_id_idx ON stock_movements(batch_id);
