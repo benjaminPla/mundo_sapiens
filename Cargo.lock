@@ -2094,6 +2094,7 @@ dependencies = [
  "eframe",
  "egui",
  "egui_extras",
+ "poll-promise",
  "postgresql_embedded",
  "sqlx",
  "thiserror 2.0.19",
@@ -2741,6 +2742,17 @@ dependencies = [
  "fdeflate",
  "flate2",
  "miniz_oxide",
+]
+
+[[package]]
+name = "poll-promise"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5f6a58fecbf9da8965bcdb20ce4fd29788d1acee68ddbb64f0ba1b81bccdb7df"
+dependencies = [
+ "document-features",
+ "static_assertions",
+ "tokio",
 ]
 
 [[package]]

@@ -17,3 +17,4 @@ postgresql_embedded = "0.21.0"
 tokio = { version = "1.53.1", features = ["rt-multi-thread"] }
 dirs = "6.0.0"
 thiserror = "2.0.19"
+poll-promise = { version = "0.3.0", features = ["tokio"] }

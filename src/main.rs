@@ -5,12 +5,14 @@ mod presentation;
 
 use crate::infrastructure::app_bootstrap::AppBootstrap;
 use crate::infrastructure::sellers::pg_sellers_repository::PgSellersRepository;
+use crate::presentation::app_data::AppData;
 use crate::presentation::components;
 use crate::presentation::screens::{Screen, Screens};
 use crate::presentation::tokens;
 
 pub struct AppState {
     active_screen: Screen,
+    app_data:      AppData,
     runtime:       tokio::runtime::Runtime,
     screens:       Screens,
     sellers_repo:  PgSellersRepository,
@@ -28,6 +30,7 @@ impl AppState {
         let sellers_repo = PgSellersRepository::new(pool.clone());
         Self {
             active_screen: Screen::Dashboard,
+            app_data: AppData::default(),
             runtime,
             screens: Screens::new(),
             sellers_repo,
@@ -41,7 +44,7 @@ impl eframe::App for AppState {
             .frame(egui::Frame::NONE.fill(tokens::CYAN).inner_margin(tokens::SPACING_MEDIUM))
             .show(ui, |ui| {
                 if let Some(screen) = components::navbar(ui) { self.active_screen = screen };
-                self.screens.show(ui, self.active_screen, self.runtime.handle(), &self.sellers_repo);
+                self.screens.show(ui, self.active_screen, self.runtime.handle(), &self.sellers_repo, &mut self.app_data);
             });
     }
 }

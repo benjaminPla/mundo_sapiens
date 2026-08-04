@@ -6,6 +6,7 @@ pub mod sale;
 pub mod sellers;
 
 use crate::infrastructure::sellers::pg_sellers_repository::PgSellersRepository;
+use crate::presentation::app_data::AppData;
 use dashboard::ScreenDashboard;
 use designs::ScreenDesigns;
 use production::ScreenProduction;
@@ -44,14 +45,14 @@ impl Screens {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui, active: Screen, runtime: &tokio::runtime::Handle, sellers_repo: &PgSellersRepository) {
+    pub fn show(&mut self, ui: &mut egui::Ui, active: Screen, runtime: &tokio::runtime::Handle, sellers_repo: &PgSellersRepository, app_data: &mut AppData) {
         match active {
             Screen::Dashboard  => self.dashboard.show(ui),
             Screen::Designs    => self.designs.show(ui),
             Screen::Production => self.production.show(ui),
             Screen::Purchase   => self.purchase.show(ui),
             Screen::Sale       => self.sale.show(ui),
-            Screen::Sellers    => self.sellers.show(ui, runtime, sellers_repo),
+            Screen::Sellers    => self.sellers.show(ui, runtime, sellers_repo, app_data),
         }
     }
 }
